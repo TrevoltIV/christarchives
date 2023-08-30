@@ -1,0 +1,44 @@
+
+
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    width: 340px;
+    height: 25px;
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 5px;
+}
+
+.textarea {
+    width: 340px;
+    height: 120px;
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.btn {
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+
+    border: none;
+    border-radius: 25px;
+}
