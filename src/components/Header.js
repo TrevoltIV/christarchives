@@ -10,7 +10,7 @@ export default function Header() {
         <div className={styles.header}>
           <div className={styles.sideBar}></div>
           <Link href="/">
-            <Image src="/logo.png" alt="Logo" width="140" height="44" />
+            <Image src="/Logo.png" alt="Logo" width="140" height="44" />
           </Link>
           <div className={styles.sideBar}>
             {/* MENU BUTTON */}
