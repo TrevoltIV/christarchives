@@ -38,16 +38,129 @@ export default function UserPage({ postData }) {
         fetchVideo()
     })
 
+    const handleAppeal = () => {
+        alert('Email Karsten at kgk1999@gmail.com if you feel this review is in error.')
+    }
+
     if (!postData[0].error) {
+        // Status 200
         return (
             <main className={styles.main}>
                 <Header />
                 <div className={styles.container}>
+                    {/* POST HEADER */}
                     <div className={styles.postHeader}>
                         <h2 className={styles.postHeaderTitle}>
                             {postData[0].title.toUpperCase()}
                         </h2>
+                        {postData[0].prstatus === 'pending' && (
+                            <div className={styles.prBannerPending}>
+                                <p className={styles.prBannerStatus}>
+                                    Peer Review Status: Pending
+                                </p>
+                            </div>
+                        )}
+                        {postData[0].prstatus === 'approved' && (
+                            <div className={styles.prBannerApproved}>
+                                <p className={styles.prBannerStatus}>
+                                    Peer Review Status: Approved
+                                </p>
+                                {postData[0].prnotes !== null && (
+                                    <div className={styles.prBannerNotes}>
+                                        <p className={styles.prBannerNotesTitle}>
+                                            Notes:
+                                        </p>
+                                        <p className={styles.prBannerNotesText}>
+                                            {postData[0].prnotes.body}
+                                        </p>
+                                        {postData[0].prnotes.links.map((item, index) => {
+                                            return (
+                                                <Link key={index} href={item} className={styles.sourceLink}>
+                                                    Source {index + 1}
+                                                </Link>
+                                            )
+                                        })}
+                                        <p className={styles.date}>
+                                            Date reviewed: {new Date(postData[0].prnotes.date).toLocaleDateString('en-US')}
+                                        </p>
+                                        <p className={styles.reviewer}>
+                                            Reviewer: {postData[0].prnotes.reviewer}
+                                        </p>
+                                        <button className={styles.appealBtn} onClick={handleAppeal}>
+                                            Challenge Review
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {postData[0].prstatus === 'partial' && (
+                            <div className={styles.prBannerPartial}>
+                                <p className={styles.prBannerStatus}>
+                                    Peer Review Status: Partially Approved
+                                </p>
+                                {postData[0].prnotes !== null && (
+                                    <div className={styles.prBannerNotes}>
+                                        <p className={styles.prBannerNotesTitle}>
+                                            Notes:
+                                        </p>
+                                        <p className={styles.prBannerNotesText}>
+                                            {postData[0].prnotes.body}
+                                        </p>
+                                        {postData[0].prnotes.links.map((item, index) => {
+                                            return (
+                                                <Link key={index} href={item} className={styles.sourceLink}>
+                                                    Source {index + 1}
+                                                </Link>
+                                            )
+                                        })}
+                                        <p className={styles.date}>
+                                            Date reviewed: {new Date(postData[0].prnotes.date).toLocaleDateString('en-US')}
+                                        </p>
+                                        <p className={styles.reviewer}>
+                                            Reviewer: {postData[0].prnotes.reviewer}
+                                        </p>
+                                        <button className={styles.appealBtn} onClick={handleAppeal}>
+                                            Challenge Review
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {postData[0].prstatus === 'rejected' && (
+                            <div className={styles.prBannerRejected}>
+                                <p className={styles.prBannerStatus}>
+                                    Peer Review Status: Rejected
+                                </p>
+                                {postData[0].prnotes !== null && (
+                                    <div className={styles.prBannerNotes}>
+                                        <p className={styles.prBannerNotesTitleRej}>
+                                            Notes:
+                                        </p>
+                                        <p className={styles.prBannerNotesText}>
+                                            {postData[0].prnotes.body}
+                                        </p>
+                                        {postData[0].prnotes.links.map((item, index) => {
+                                            return (
+                                                <Link key={index} href={item} className={styles.sourceLink}>
+                                                    Source {index + 1}
+                                                </Link>
+                                            )
+                                        })}
+                                        <p className={styles.prBannerDate}>
+                                            Date reviewed: {new Date(postData[0].prnotes.date).toLocaleDateString('en-US')}
+                                        </p>
+                                        <p className={styles.reviewer}>
+                                            Reviewer: {postData[0].prnotes.reviewer}
+                                        </p>
+                                        <button className={styles.appealBtn} onClick={handleAppeal}>
+                                            Challenge Review
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
+                    {/* POST */}
                     <div className={styles.post}>
                         <p className={styles.body}>
                             {postData[0].body}
@@ -59,6 +172,9 @@ export default function UserPage({ postData }) {
                         )}
                         <p className={styles.category}>
                             Category: <Link className={styles.link} href={`/categories/${postData[0].category}`}>{postData[0].category}</Link>
+                        </p>
+                        <p className={styles.date}>
+                            Date posted: {new Date(postData[0].date).toLocaleDateString('en-US')}
                         </p>
                         <p className={styles.author}>
                             Author: {postData[0].author}
@@ -73,6 +189,7 @@ export default function UserPage({ postData }) {
             </main>
         )
     } else {
+        // Error message
         return (
             <main className={styles.main}>
                 <Header />

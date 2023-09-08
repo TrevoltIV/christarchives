@@ -6,6 +6,7 @@ import { setDoc, doc } from 'firebase/firestore'
 import { storage } from '@/firebaseConfig.js'
 import { ref, uploadBytes } from 'firebase/storage'
 import Header from '@/components/Header'
+import axios from 'axios'
 import styles from '@/styles/Upload.module.css'
 
 
@@ -30,29 +31,28 @@ export default function Upload() {
         setFormData({...formData, video: e.target.files[0]})
     }
 
+    const sendMail = async () => {
+        try {
+            await axios.post('/api/newUploadMailer', formData)
+        } catch {
+            return
+        }
+    }
+
     const handleUpload = async () => {
         if (formData.name !== null && formData.body !== null && formData.title !== null && formData.category !== null && formData.pass == 1390) {
-            const random = Date.now().toString()
-
-            if (formData.video !== null) {
-                const videoRef = ref(storage, `videos/${random.toString() + '_' + formData.video.name}`)
-                uploadBytes(videoRef, formData.video)
-                .then(() => {
-                    setDoc(doc(db, 'uploads', Date.now().toString()), {
-                        author: formData.name,
-                        date: Date.now(),
-                        title: formData.title,
-                        body: formData.body,
-                        category: formData.category,
-                        link: formData.link,
-                        video: formData.video !== null ? random + '_' + formData.video.name : null,
-                    })
-                    alert('Success!')
-                })
-                .catch((error) => {
-                    alert(error)
-                })
-            }
+            setDoc(doc(db, 'uploads', Date.now().toString()), {
+                author: formData.name,
+                date: Date.now(),
+                title: formData.title,
+                body: formData.body,
+                category: formData.category,
+                link: formData.link,
+                prstatus: 'pending',
+                prnotes: null,
+            })
+            sendMail()
+            alert('Success!')
         } else {
             alert('Fill out all required fields and make sure you have the passcode to post.')
         }
@@ -70,7 +70,6 @@ export default function Upload() {
                 <textarea className={styles.textarea} id="body" onChange={(e) => handleInput(e)} placeholder="*Body" />
                 <input className={styles.input} type="text" id="category" onChange={(e) => handleInput(e)} placeholder="*Category" />
                 <input className={styles.input} type="text" id="link" onChange={(e) => handleInput(e)} placeholder="Link URL (optional)" />
-                <input className={styles.fileInput} type="file" id="video" onChange={(e) => handleVideoInput(e)} placeholder="Upload video file (optional)" />
                 <button className={styles.btn} onClick={handleUpload}>
                     Submit
                 </button>

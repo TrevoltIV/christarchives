@@ -47,8 +47,7 @@ export default function Home() {
             WELCOME TO CHRIST ARCHIVES!
           </h2>
           <p className={styles.welcomeText}>
-            This is the first version of the site, many more updates are to come. If you are a web developer or want to become a member of the team
-            for any reason, contact me at: kgk1999@gmail.com
+            This is the first version of the site, many more updates are to come. If you are a web developer or want to become a member of the team, email me at kgk1999@gmail.com. You can join our Discord server <Link href="https://discord.gg/rRYwXmWk">here</Link>
           </p>
         </div>
         <div className={styles.about}>

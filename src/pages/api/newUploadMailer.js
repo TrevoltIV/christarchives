@@ -11,20 +11,23 @@ const transporter = nodemailer.createTransport({
 })
 
 
-export default async function donutSubmit(req, res) {
+export default async function newUploadMailer(req, res) {
   const formData = req.body
 
 
   await transporter.sendMail({
     from: `"Christ Archives" <kgk1999@gmail.com>`,
     to: 'kgk1999@gmail.com',
-    subject: `New subscription! ${formData.email}`,
+    subject: `New post for peer review ${formData.title}`,
     text: `
       
 
       ----------------------------------------------
       
-      Email: ${formData.email}
+      This post was just submitted for peer review!
+
+      Title: ${formData.title}
+      Author: ${formData.author}
 
       ----------------------------------------------
     `,
