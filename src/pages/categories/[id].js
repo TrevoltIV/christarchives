@@ -24,21 +24,87 @@ export default function UserPage({ postData, category }) {
                     </div>
                     <div className={styles.posts}>
                         {postData.map((post, index) => {
-                            return (
-                                <Link key={index} href={`/post/${post.date}`} className={styles.link}>
-                                    <div className={styles.post}>
-                                        <h2 className={styles.title}>
-                                            {post.title}
-                                        </h2>
-                                        <div className={styles.authorWrapper}>
-                                            <p className={styles.author}>
-                                                Author: {post.author}
-                                            </p>
-                                            
+                            if (post.prstatus === 'pending') {
+                                return (
+                                    <Link key={index} href={`/post/${post.date}`} className={styles.link}>
+                                        <div className={styles.post}>
+                                            <h2 className={styles.title}>
+                                                {post.title}
+                                            </h2>
+                                            <div className={styles.authorWrapper}>
+                                                <p className={styles.author}>
+                                                    Author: {post.author}
+                                                </p>
+                                            </div>
+                                            <div className={styles.prstatusPending}>
+                                                <p className={styles.prstatusText}>
+                                                    Pending Review
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            )
+                                    </Link>
+                                )
+                            } else if (post.prstatus === 'approved') {
+                                return (
+                                    <Link key={index} href={`/post/${post.date}`} className={styles.link}>
+                                        <div className={styles.post}>
+                                            <h2 className={styles.title}>
+                                                {post.title}
+                                            </h2>
+                                            <div className={styles.authorWrapper}>
+                                                <p className={styles.author}>
+                                                    Author: {post.author}
+                                                </p>
+                                            </div>
+                                            <div className={styles.prstatusApproved}>
+                                                <p className={styles.prstatusText}>
+                                                    Approved
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
+                            } else if (post.prstatus === 'partial') {
+                                return (
+                                    <Link key={index} href={`/post/${post.date}`} className={styles.link}>
+                                        <div className={styles.post}>
+                                            <h2 className={styles.title}>
+                                                {post.title}
+                                            </h2>
+                                            <div className={styles.authorWrapper}>
+                                                <p className={styles.author}>
+                                                    Author: {post.author}
+                                                </p>
+                                            </div>
+                                            <div className={styles.prstatusPartial}>
+                                                <p className={styles.prstatusText}>
+                                                    Partially Approved
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
+                            } else if (post.prstatus === 'rejected') {
+                                return (
+                                    <Link key={index} href={`/post/${post.date}`} className={styles.link}>
+                                        <div className={styles.post}>
+                                            <h2 className={styles.title}>
+                                                {post.title}
+                                            </h2>
+                                            <div className={styles.authorWrapper}>
+                                                <p className={styles.author}>
+                                                    Author: {post.author}
+                                                </p>
+                                            </div>
+                                            <div className={styles.prstatusRejected}>
+                                                <p className={styles.prstatusText}>
+                                                    Rejected
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
+                            }
                         })}
                     </div>
                 </div>
