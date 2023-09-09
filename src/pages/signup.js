@@ -97,7 +97,7 @@ export default function Signup() {
                         placeholder="*Confirm password"
                     />
                     <input
-                        type="password"
+                        type="text"
                         id="discord"
                         onChange={(e) => handleInput(e)}
                         className={styles.input}
