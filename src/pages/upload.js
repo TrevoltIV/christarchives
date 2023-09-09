@@ -7,7 +7,7 @@ import { storage } from '@/firebaseConfig.js'
 import { ref, uploadBytes } from 'firebase/storage'
 import Header from '@/components/Header'
 import axios from 'axios'
-import styles from '@/styles/Upload.module.css'
+import styles from '@/styles/upload.module.css'
 
 
 

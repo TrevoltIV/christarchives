@@ -179,6 +179,9 @@ export default function UserPage({ postData }) {
                         <p className={styles.author}>
                             Author: {postData[0].author}
                         </p>
+                        <p className={styles.postID}>
+                            Post ID: {postData[0].date}
+                        </p>
                         {videoURL && (
                             <video className={styles.video} controls style={{ width: '300px', height: '168px' }}>
                                 <source src={videoURL} />
