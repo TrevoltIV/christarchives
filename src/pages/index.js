@@ -58,10 +58,9 @@ export default function Home() {
           </div>
           <p className={styles.aboutText}>
             I am making this website to offer a trustworthy central source of evidence for the Bible, prophecy, current events, and pretty much anything else related to the Bible and Christ.
-            For now, the site is in early development so it is more of a personal archive of mine for you to check out, but in the next updates I will add user accounts and the ability to post your
-            own content which will then be peer reviewed by other knowledgeable people. This will provide as accurate of a source of information as possible. This idea was inspired by all the
-            confusion going on with people on TikTok spreading things that are not accurate, which makes people think all biblical evidence or conspiracy is fake. This is exactly how Satan wants
-            it to be, so for anyone who seeks the truth, this is the site for you.
+            For now, the site is in early development so there may be bugs. This platform will allow individuals to conversate and post content that will then be peer reviewed by a trusted PR team.
+            This will provide as accurate of a source of information as possible. This idea was inspired by all the confusion going on with people on TikTok spreading things that are not accurate,
+            which makes people think all biblical evidence or conspiracy is fake. This is exactly how Satan wants it to be, so for anyone who seeks the truth, this is the site for you.
           </p>
         </div>
         <div className={styles.categoriesWrapper}>

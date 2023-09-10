@@ -31,7 +31,7 @@ export default function Login() {
         if (formData.email !== null && formData.password !== null) {
             signInWithEmailAndPassword(auth, formData.email, formData.password)
             .then(() => {
-                router.push('/account')
+                router.push('/')
             })
             .catch((error) => {
                 alert(error.message)

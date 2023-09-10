@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Header from '@/components/Header'
 import styles from '@/styles/jointheteam.module.css'
 
@@ -18,7 +19,7 @@ export default function JoinTheTeam() {
                 <br />
                 <br />
                 &nbsp;&nbsp;
-                I am working on this page. For now join the discord!
+                I am working on this page. You can join the <Link style={{color: '#fff'}} href="https://discord.gg/rRYwXmWk">discord server</Link> to apply for a team position &#40;Moderator, peer-reviewer, developer, promoter, etc.&#41;
             </div>
         </div>
     )

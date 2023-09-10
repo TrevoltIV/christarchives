@@ -1,49 +1,87 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { auth, db } from '@/firebaseConfig'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, query, where, getDocs, collection } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 import { storage } from '@/firebaseConfig.js'
 import { ref, uploadBytes } from 'firebase/storage'
-import Header from '@/components/Header'
 import axios from 'axios'
+import Header from '@/components/Header'
 import styles from '@/styles/upload.module.css'
 
 
 
 export default function Upload() {
+    const [user, setUser] = useState(false)
+    const [userData, setUserData] = useState(null)
     const [formData, setFormData] = useState({
-        name: null,
         title: null,
         body: null,
         category: null,
         link: null,
-        pass: null,
-        video: null,
     })
 
+    const router = useRouter()
 
+    useEffect(() => {
+        // Update auth state
+        onAuthStateChanged(auth, (userCredential) => {
+            if (userCredential) {
+                setUser(userCredential)
+                fetchUserData(userCredential)
+                console.log(userCredential)
+            } else {
+                router.push('/login')
+            }
+        })
+
+        // Get user data from database
+        const fetchUserData = async (userCredential) => {
+            const q = query(collection(db, 'users'), where('email', '==', userCredential.email))
+            const querySnapshot = await getDocs(q)
+
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach((doc) => {
+                    setUserData(doc.data())
+                })
+            } else {
+                // Error code #1
+                alert('Error: An authentication error has occurred. If this persists please contact Trevolt on Discord with error code #1')
+                auth.signOut()
+            }
+        }
+    }, [router])
+
+
+    // Log input values
     const handleInput = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value})
     }
 
+    // For video feature (later)
     const handleVideoInput = (e) => {
         setFormData({...formData, video: e.target.files[0]})
     }
 
+    // Send email to Trevolt when post is uploaded
     const sendMail = async () => {
         try {
             await axios.post('/api/newUploadMailer', formData)
         } catch {
-            return
+            return null
         }
     }
 
+    // Upload post and redirect to it if successful
     const handleUpload = async () => {
-        if (formData.name !== null && formData.body !== null && formData.title !== null && formData.category !== null && formData.pass == 1390) {
-            setDoc(doc(db, 'uploads', Date.now().toString()), {
-                author: formData.name,
-                date: Date.now(),
+        if (formData.body !== null && formData.title !== null && formData.category !== null) {
+            const date = Date.now()
+
+            await setDoc(doc(db, 'uploads', date.toString()), {
+                author: userData.username,
+                date: date,
                 title: formData.title,
                 body: formData.body,
                 category: formData.category,
@@ -51,29 +89,36 @@ export default function Upload() {
                 prstatus: 'pending',
                 prnotes: null,
             })
-            sendMail()
-            alert('Success!')
+            .then(() => {
+                sendMail()
+                router.push(`/post/${date}`)
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
         } else {
-            alert('Fill out all required fields and make sure you have the passcode to post.')
+            alert('Fill out all required fields.')
         }
     }
 
 
 
-    return (
-        <main className={styles.main}>
-            <Header />
-            <div className={styles.upload}>
-                <input className={styles.input} type="text" id="pass" onChange={(e) => handleInput(e)} placeholder="*Passcode" />
-                <input className={styles.input} type="text" id="name" onChange={(e) => handleInput(e)} placeholder="*Name" />
-                <input className={styles.input} type="text" id="title" onChange={(e) => handleInput(e)} placeholder="*Title" />
-                <textarea className={styles.textarea} id="body" onChange={(e) => handleInput(e)} placeholder="*Body" />
-                <input className={styles.input} type="text" id="category" onChange={(e) => handleInput(e)} placeholder="*Category" />
-                <input className={styles.input} type="text" id="link" onChange={(e) => handleInput(e)} placeholder="Link URL (optional)" />
-                <button className={styles.btn} onClick={handleUpload}>
-                    Submit
-                </button>
-            </div>
-        </main>
-    )
+    if (user) {
+        return (
+            <main className={styles.main}>
+                <Header />
+                <div className={styles.upload}>
+                    SUBMIT A POST
+                    <input className={styles.input} type="text" id="title" onChange={(e) => handleInput(e)} placeholder="*Title" />
+                    <textarea className={styles.textarea} id="body" onChange={(e) => handleInput(e)} placeholder="*Body" />
+                    <input className={styles.input} type="text" id="category" onChange={(e) => handleInput(e)} placeholder="*Category" />
+                    <input className={styles.input} type="text" id="link" onChange={(e) => handleInput(e)} placeholder="Link URL (optional)" />
+                    <button className={styles.btn} onClick={handleUpload}>
+                        Submit
+                    </button>
+                    Site is in beta. If problems occur, contact Trevolt on Discord.
+                </div>
+            </main>
+        )
+    }
 }

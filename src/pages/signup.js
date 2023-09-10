@@ -3,7 +3,7 @@ import Header from '@/components/Header'
 import { useState } from 'react'
 import { auth, db } from '@/firebaseConfig'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, collection, query, where, getDocs } from 'firebase/firestore'
 import { useRouter } from 'next/router'
 import styles from '@/styles/signup.module.css'
 
@@ -35,22 +35,30 @@ export default function Signup() {
     const handleSubmit = async () => {
         if (formData.username !== null && formData.email !== null && formData.password !== null) {
             if (formData.password === formData.confirmPassword) {
-                createUserWithEmailAndPassword(auth, formData.email, formData.password)
-                .then(() => {
-                    setDoc(doc(db, 'users', formData.email), {
-                        username: formData.username,
-                        email: formData.email,
-                        dateJoined: Date.now(),
-                        status: 'user',
-                        discord: formData.discord,
-                    })
+                const q = query(collection(db, 'users'), where('username', '==', formData.username))
+                const querySnapshot = await getDocs(q)
+
+                if (querySnapshot.docs.length > 0) {
+                    alert('Username taken.')
+                    return null
+                } else {
+                    createUserWithEmailAndPassword(auth, formData.email, formData.password)
                     .then(() => {
-                        router.push('/account')
+                        setDoc(doc(db, 'users', formData.email), {
+                            username: formData.username,
+                            email: formData.email,
+                            dateJoined: Date.now(),
+                            status: 'user',
+                            discord: formData.discord,
+                        })
+                        .then(() => {
+                            router.push('/account/welcome')
+                        })
                     })
-                })
-                .catch((error) => {
-                    alert(error.message)
-                })
+                    .catch((error) => {
+                        alert(error.message)
+                    })
+                }
             } else {
                 alert('Passwords do not match')
             }
