@@ -14,7 +14,7 @@ export default function Help() {
         <div className={styles.container}>
             <Header />
             <div className={styles.help}>
-                Help
+                Visit the Discord server for support, this page is under construction.
             </div>
         </div>
     )

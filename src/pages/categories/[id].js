@@ -5,12 +5,33 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { db, auth } from '@/firebaseConfig'
 import { onAuthStateChanged } from 'firebase/auth'
-import { collection, query, getDocs, where, updateDoc, getDoc, doc } from 'firebase/firestore'
+import { collection, query, getDocs, where, updateDoc, getDoc, doc, setDoc } from 'firebase/firestore'
 import Header from '@/components/Header'
 import styles from '@/styles/categories/categoryPage.module.css'
-import { formToJSON } from 'axios'
+import axios from 'axios'
 
 export default function UserPage({ postData, category }) {
+    const [loaded, setLoaded] = useState(false)
+
+
+    // Grab IP of user to log in DB
+    useEffect(() => {
+
+        const fetchIP = async () => {
+        const res = await axios.get("https://api.ipify.org?format=json")
+        if (res.status === 200 && loaded === false) {
+            await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_CATEGORIES' : 'USER_' + res.data.ip + '_CATEGORIES'), {
+            ip: res.data.ip,
+            date: Date.now(),
+            user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+            page: 'Categories',
+            })
+            setLoaded(true)
+        }
+        }
+
+        fetchIP()
+    }, [loaded])
 
 
     if (!postData[0].error) {

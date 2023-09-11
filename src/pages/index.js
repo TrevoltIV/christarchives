@@ -23,17 +23,18 @@ export default function Home() {
     const fetchIP = async () => {
       const res = await axios.get("https://api.ipify.org?format=json")
       if (res.status === 200 && loaded === false) {
-        await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN' : res.data.ip), {
+        await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_HOME' : 'USER_' + res.data.ip + '_HOME'), {
           ip: res.data.ip,
           date: Date.now(),
           user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+          page: 'Home',
         })
         setLoaded(true)
       }
     }
 
     fetchIP()
-  }, [])
+  }, [loaded])
 
   const handleInput = (val) => {
     setFormData({...formData, email: val})

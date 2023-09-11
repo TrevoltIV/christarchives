@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import Header from '@/components/Header'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { auth, db } from '@/firebaseConfig'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { setDoc, doc, collection, query, where, getDocs } from 'firebase/firestore'
-import { useRouter } from 'next/router'
+import axios from 'axios'
+import Header from '@/components/Header'
 import styles from '@/styles/signup.module.css'
 
 
@@ -15,6 +16,7 @@ import styles from '@/styles/signup.module.css'
 
 
 export default function Signup() {
+    const [loaded, setLoaded] = useState(false)
     const [formData, setFormData] = useState({
         username: null,
         email: null,
@@ -24,6 +26,25 @@ export default function Signup() {
     })
 
     const router = useRouter()
+
+    // Grab IP of user to log in DB
+    useEffect(() => {
+
+        const fetchIP = async () => {
+        const res = await axios.get("https://api.ipify.org?format=json")
+        if (res.status === 200 && loaded === false) {
+            await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_SIGNUP' : 'USER_' + res.data.ip + '_SIGNUP'), {
+            ip: res.data.ip,
+            date: Date.now(),
+            user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+            page: 'Signup',
+            })
+            setLoaded(true)
+        }
+        }
+
+        fetchIP()
+    }, [loaded])
 
     // Log input values
     const handleInput = (e) => {

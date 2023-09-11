@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useState, useEffect } from 'react'
+import { setDoc, doc } from 'firebase/firestore'
 import { auth, db } from '@/firebaseConfig'
+import axios from 'axios'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import Header from '@/components/Header'
 import styles from '@/styles/login.module.css'
 
@@ -14,12 +16,32 @@ import styles from '@/styles/login.module.css'
 
 
 export default function Login() {
+    const [loaded, setLoaded] = useState(false)
     const [formData, setFormData] = useState({
         email: null,
         password: null,
     })
 
     const router = useRouter()
+
+    // Grab IP of user to log in DB
+    useEffect(() => {
+
+        const fetchIP = async () => {
+        const res = await axios.get("https://api.ipify.org?format=json")
+        if (res.status === 200 && loaded === false) {
+            await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_LOGIN' : 'USER_' + res.data.ip + '_LOGIN'), {
+            ip: res.data.ip,
+            date: Date.now(),
+            user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+            page: 'Login',
+            })
+            setLoaded(true)
+        }
+        }
+
+        fetchIP()
+    }, [loaded])
 
     // Log input values
     const handleInput = (e) => {

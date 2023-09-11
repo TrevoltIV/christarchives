@@ -14,6 +14,7 @@ import styles from '@/styles/upload.module.css'
 
 
 export default function Upload() {
+    const [loaded, setLoaded] = useState(false)
     const [user, setUser] = useState(false)
     const [userData, setUserData] = useState(null)
     const [formData, setFormData] = useState({
@@ -24,6 +25,25 @@ export default function Upload() {
     })
 
     const router = useRouter()
+
+    // Grab IP of user to log in DB
+    useEffect(() => {
+
+        const fetchIP = async () => {
+        const res = await axios.get("https://api.ipify.org?format=json")
+        if (res.status === 200 && loaded === false) {
+            await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_UPLOAD' : 'USER_' + res.data.ip + '_UPLOAD'), {
+            ip: res.data.ip,
+            date: Date.now(),
+            user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+            page: 'Upload',
+            })
+            setLoaded(true)
+        }
+        }
+
+        fetchIP()
+    }, [loaded])
 
     useEffect(() => {
         // Update auth state
