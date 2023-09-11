@@ -12,6 +12,7 @@ import { formToJSON } from 'axios'
 
 export default function UserPage({ postData, category }) {
 
+
     if (!postData[0].error) {
         return (
             <main className={styles.main}>

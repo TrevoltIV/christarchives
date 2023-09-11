@@ -1,19 +1,39 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from '@/styles/Home.module.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { setDoc, doc } from 'firebase/firestore'
+import { auth, db } from '@/firebaseConfig'
 import axios from 'axios'
 import Header from '@/components/Header'
+import styles from '@/styles/Home.module.css'
 
 
 
 export default function Home() {
+  const [loaded, setLoaded] = useState(false)
   const [formData, setFormData] = useState({
     email: null,
   })
 
 
+  // Grab IP of user to log in DB
+  useEffect(() => {
+
+    const fetchIP = async () => {
+      const res = await axios.get("https://api.ipify.org?format=json")
+      if (res.status === 200 && loaded === false) {
+        await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN' : res.data.ip), {
+          ip: res.data.ip,
+          date: Date.now(),
+          user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+        })
+        setLoaded(true)
+      }
+    }
+
+    fetchIP()
+  }, [])
 
   const handleInput = (val) => {
     setFormData({...formData, email: val})

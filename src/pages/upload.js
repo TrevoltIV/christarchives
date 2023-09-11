@@ -31,7 +31,6 @@ export default function Upload() {
             if (userCredential) {
                 setUser(userCredential)
                 fetchUserData(userCredential)
-                console.log(userCredential)
             } else {
                 router.push('/login')
             }
