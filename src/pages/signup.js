@@ -16,6 +16,7 @@ import styles from '@/styles/signup.module.css'
 
 
 export default function Signup() {
+    const [IP, setIP] = useState(null)
     const [loaded, setLoaded] = useState(false)
     const [formData, setFormData] = useState({
         username: null,
@@ -33,6 +34,7 @@ export default function Signup() {
         const fetchIP = async () => {
         const res = await axios.get("https://api.ipify.org?format=json")
         if (res.status === 200 && loaded === false) {
+            setIP(res.data.ip)
             await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_SIGNUP' : 'USER_' + res.data.ip + '_SIGNUP'), {
             ip: res.data.ip,
             date: Date.now(),
@@ -71,6 +73,7 @@ export default function Signup() {
                             dateJoined: Date.now(),
                             status: 'user',
                             discord: formData.discord,
+                            ip: IP,
                         })
                         .then(() => {
                             router.push('/account/welcome')

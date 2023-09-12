@@ -240,7 +240,7 @@ export async function getServerSideProps(context) {
     const colRef = collection(db, 'uploads')
     const q = query(colRef, where('date', '==', parseInt(id)))
     const querySnapshot = await getDocs(q)
-    const postDataArray = []
+    let postDataArray = []
 
     if (!querySnapshot.empty) {
       querySnapshot.forEach((doc) => {

@@ -108,3 +108,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.betaBanner {
+  background: rgb(255, 228, 78);
+  width: 100%;
+
+  font-family: sans-serif;
+  font-weight: 700;
+}

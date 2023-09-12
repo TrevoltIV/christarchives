@@ -17,29 +17,52 @@
 }
 
 .input {
+    background: #444444;
     width: 340px;
-    height: 25px;
-    margin-top: 10px;
+    height: 28px;
+    margin-top: 15px;
+    padding: 5px;
 
     border: none;
-    border-radius: 5px;
+    outline: none;
+
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700;
 }
 
 .textarea {
+    background: #444444;
     width: 340px;
     height: 120px;
-    margin-top: 10px;
+    margin-top: 15px;
+    padding: 5px;
 
     border: none;
     border-radius: 5px;
     resize: vertical;
+    outline: none;
+
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.input:focus {
+    background: rgb(83, 83, 83);
+}
+
+.textarea:focus {
+    background: rgb(83, 83, 83);
 }
 
 .btn {
+    background: #c5c5c5;
     width: 100px;
     height: 30px;
     margin-top: 20px;
 
     border: none;
     border-radius: 25px;
+    cursor: pointer;
 }

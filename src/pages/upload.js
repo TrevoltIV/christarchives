@@ -127,7 +127,7 @@ export default function Upload() {
             <main className={styles.main}>
                 <Header />
                 <div className={styles.upload}>
-                    SUBMIT A POST
+                    <h2>SUBMIT A POST</h2>
                     <input className={styles.input} type="text" id="title" onChange={(e) => handleInput(e)} placeholder="*Title" />
                     <textarea className={styles.textarea} id="body" onChange={(e) => handleInput(e)} placeholder="*Body" />
                     <input className={styles.input} type="text" id="category" onChange={(e) => handleInput(e)} placeholder="*Category" />
