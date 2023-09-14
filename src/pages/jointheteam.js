@@ -39,12 +39,23 @@ export default function JoinTheTeam() {
         <div className={styles.container}>
             <Header />
             <div className={styles.jointheteam}>
-                <br />
-                <br />
-                <br />
-                <br />
-                &nbsp;&nbsp;
-                I am working on this page. You can join the <Link style={{color: '#fff'}} href="https://discord.gg/rRYwXmWk">discord server</Link> to apply for a team position &#40;Moderator, peer-reviewer, developer, promoter, etc.&#41;
+              <h2 className={styles.title}>
+                JOIN THE TEAM
+              </h2>
+                <div className={styles.info}>
+                  <p className={styles.text}>
+                    If you are interested in volunteering as any of the following positions &#40;or others not listed&#41;, please join our <Link href="https://discord.gg/YCpEB2CQ" className={styles.link}>Discord server</Link>
+                    &nbsp;or email at: <Link href="mailto:kgk1999@gmail.com" className={styles.link}>kgk1999@gmail.com</Link>.
+                  </p>
+                  <br />
+                  <p className={styles.text}>
+                    * Peer Reviewer<br />
+                    * Moderator<br />
+                    * Developer &#40;React, Next, Node&#41;<br />
+                    * Designer &#40;Graphics, web design, etc.&#41;<br />
+                    * Other skills potentially useful!
+                  </p>
+                </div>
             </div>
         </div>
     )

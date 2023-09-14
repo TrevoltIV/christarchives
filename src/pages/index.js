@@ -68,7 +68,8 @@ export default function Home() {
             WELCOME TO CHRIST ARCHIVES!
           </h2>
           <p className={styles.welcomeText}>
-            This is the first version of the site, many more updates are to come. If you are a web developer or want to become a member of the team, email me at kgk1999@gmail.com. You can join our Discord server <Link href="https://discord.gg/rRYwXmWk">here</Link>
+            This is the first version of the site, many more updates are to come. If you are a web developer or want to become a member of the team, email me at kgk1999@gmail.com 
+            or you can <Link href="https://discord.gg/rRYwXmWk" className={styles.link}>join our Discord server</Link>.
           </p>
           <p className={styles.betaBanner}>
             WARNING: Site is in early development.
@@ -94,6 +95,21 @@ export default function Home() {
             </h2>
           </div>
           <div className={styles.categories}>
+            <Link href="/categories/biblestudy" className={styles.categoryLink}>
+              <p className={styles.category}>
+                Bible Study
+              </p>
+            </Link>
+            <Link href="/categories/prophecy" className={styles.categoryLink}>
+              <p className={styles.category}>
+                Prophecy / End Times
+              </p>
+            </Link>
+            <Link href="/categories/falseteachings" className={styles.categoryLink}>
+              <p className={styles.category}>
+                False Teachings Exposed
+              </p>
+            </Link>
             <Link href="/categories/evolution" className={styles.categoryLink}>
               <p className={styles.category}>
                 Evolution / Old Earth
@@ -104,9 +120,9 @@ export default function Home() {
                 Genesis
               </p>
             </Link>
-            <Link href="/categories/prophecy" className={styles.categoryLink}>
+            <Link href="/categories/currentevents" className={styles.categoryLink}>
               <p className={styles.category}>
-                Prophecy
+                Current Events
               </p>
             </Link>
             <Link href="/categories/occult" className={styles.categoryLink}>
@@ -117,11 +133,6 @@ export default function Home() {
             <Link href="/categories/conspiracy" className={styles.categoryLink}>
               <p className={styles.category}>
                 Conspiracy
-              </p>
-            </Link>
-            <Link href="/categories/currentevents" className={styles.categoryLink}>
-              <p className={styles.category}>
-                Current Events
               </p>
             </Link>
             <Link href="/categories/aliens" className={styles.categoryLink}>
