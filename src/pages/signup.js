@@ -32,17 +32,17 @@ export default function Signup() {
     useEffect(() => {
 
         const fetchIP = async () => {
-        const res = await axios.get("https://api.ipify.org?format=json")
-        if (res.status === 200 && loaded === false) {
-            setIP(res.data.ip)
-            await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_SIGNUP' : 'USER_' + res.data.ip + '_SIGNUP'), {
-            ip: res.data.ip,
-            date: Date.now(),
-            user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
-            page: 'Signup',
-            })
-            setLoaded(true)
-        }
+            const res = await axios.get("https://api.ipify.org?format=json")
+            if (res.status === 200 && loaded === false) {
+                setIP(res.data.ip)
+                await setDoc(doc(db, 'visitors', res.data.ip === '172.58.4.242' ? 'ADMIN_' + res.data.ip + '_SIGNUP' : 'USER_' + res.data.ip + '_SIGNUP'), {
+                    ip: res.data.ip,
+                    date: Date.now(),
+                    user: res.data.ip === '172.58.4.242' ? 'ADMIN' : 'Organic',
+                    page: 'Signup',
+                })
+                setLoaded(true)
+            }
         }
 
         fetchIP()

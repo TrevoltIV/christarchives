@@ -22,6 +22,7 @@ export default function Upload() {
         body: null,
         category: null,
         link: null,
+        author: null,
     })
 
     const router = useRouter()
@@ -87,7 +88,7 @@ export default function Upload() {
     // Send email to Trevolt when post is uploaded
     const sendMail = async () => {
         try {
-            await axios.post('/api/newUploadMailer', formData)
+            await axios.post('/api/newUploadMailer', {...formData, author: userData.username})
         } catch {
             return null
         }

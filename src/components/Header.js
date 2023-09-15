@@ -52,6 +52,7 @@ export default function Header() {
     setUserStatus('user')
     router.push('/login')
   }
+  console.log(userStatus)
 
     return (
         <div className={styles.header}>
@@ -97,12 +98,29 @@ export default function Header() {
               <Link href="/donate" className={styles.menuLink}>
                 Donate
               </Link>
-              {userStatus === 'pr' || userStatus === 'moderator' || userStatus === 'admin' && (
+              {/* PR Dashboard */}
+              {userStatus === 'pr' && (
                 <Link href="/pr/dashboard" className={styles.menuLink}>
                   PR Dashboard
                 </Link>
               )}
-              {userStatus === 'moderator' || userStatus === 'admin' && (
+              {userStatus === 'moderator' && (
+                <Link href="/pr/dashboard" className={styles.menuLink}>
+                  PR Dashboard
+                </Link>
+              )}
+              {userStatus === 'admin' && (
+                <Link href="/pr/dashboard" className={styles.menuLink}>
+                  PR Dashboard
+                </Link>
+              )}
+              {/* Mod Dashboard */}
+              {userStatus === 'moderator' && (
+                <Link href="/mod/dashboard" className={styles.menuLink}>
+                  Mod Dashboard
+                </Link>
+              )}
+              {userStatus === 'admin' && (
                 <Link href="/mod/dashboard" className={styles.menuLink}>
                   Mod Dashboard
                 </Link>

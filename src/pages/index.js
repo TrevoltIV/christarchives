@@ -120,9 +120,19 @@ export default function Home() {
                 Genesis
               </p>
             </Link>
+            <Link href="/categories/archeology" className={styles.categoryLink}>
+              <p className={styles.category}>
+                Biblical Archeology
+              </p>
+            </Link>
             <Link href="/categories/currentevents" className={styles.categoryLink}>
               <p className={styles.category}>
                 Current Events
+              </p>
+            </Link>
+            <Link href="/categories/supernatural" className={styles.categoryLink}>
+              <p className={styles.category}>
+                Supernatural
               </p>
             </Link>
             <Link href="/categories/occult" className={styles.categoryLink}>

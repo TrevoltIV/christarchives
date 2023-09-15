@@ -18,7 +18,7 @@ export default async function newUploadMailer(req, res) {
   await transporter.sendMail({
     from: `"Christ Archives" <kgk1999@gmail.com>`,
     to: 'kgk1999@gmail.com',
-    subject: `New post for peer review ${formData.title}`,
+    subject: `New post for peer review: ${formData.title}`,
     text: `
       
 

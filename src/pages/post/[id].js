@@ -7,6 +7,7 @@ import { db, auth } from '@/firebaseConfig'
 import { ref, getDownloadURL, listAll } from 'firebase/storage'
 import { storage } from '@/firebaseConfig.js'
 import { collection, query, getDocs, where, updateDoc, getDoc, doc, setDoc } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 import axios from 'axios'
 import Header from '@/components/Header'
 import styles from '@/styles/post/postPage.module.css'
@@ -14,6 +15,7 @@ import styles from '@/styles/post/postPage.module.css'
 export default function UserPage({ postData }) {
     const [videoURL, setVideoURL] = useState(null)
     const [loaded, setLoaded] = useState(false)
+    const [userStatus, setUserStatus] = useState('user')
 
     useEffect(() => {
 
@@ -57,6 +59,23 @@ export default function UserPage({ postData }) {
         }
 
         fetchIP()
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                getUserStatus(user)
+            } else {
+                setUserStatus('user')
+            }
+        })
+
+        const getUserStatus = async (user) => {
+            const q = query(collection(db, 'users'), where('email', '==', user.email))
+            const querySnapshot = await getDocs(q)
+
+            if (!querySnapshot.empty) {
+                setUserStatus(querySnapshot.docs[0].data().status)
+            }
+        }
     }, [loaded])
 
     const handleAppeal = () => {
@@ -79,6 +98,22 @@ export default function UserPage({ postData }) {
                                 <p className={styles.prBannerStatus}>
                                     Peer Review Status: Pending
                                 </p>
+                                {/* Review Post Button */}
+                                {userStatus === 'pr' && (
+                                    <Link href={`/pr/post/${postData[0].date}`} className={styles.prReviewPostBtn}>
+                                        Review Post
+                                    </Link>
+                                )}
+                                {userStatus === 'moderator' && (
+                                    <Link href={`/pr/post/${postData[0].date}`} className={styles.prReviewPostBtn}>
+                                        Review Post
+                                    </Link>
+                                )}
+                                {userStatus === 'admin' && (
+                                    <Link href={`/pr/post/${postData[0].date}`} className={styles.prReviewPostBtn}>
+                                        Review Post
+                                    </Link>
+                                )}
                             </div>
                         )}
                         {postData[0].prstatus === 'approved' && (
