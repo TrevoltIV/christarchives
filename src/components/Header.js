@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { onAuthStateChanged } from 'firebase/auth'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 import { auth, db } from '@/firebaseConfig'
 import { useState, useEffect } from 'react'
 import styles from '@/styles/components/Header.module.css'
@@ -11,20 +13,44 @@ import styles from '@/styles/components/Header.module.css'
 export default function Header() {
   const [menu, setMenu] = useState(false)
   const [user, setUser] = useState(false)
+  const [userStatus, setUserStatus] = useState('user')
+
+  const router = useRouter()
 
   // Update user auth status
   useEffect(() => {
     onAuthStateChanged(auth, (uid) => {
       if (uid) {
         setUser(uid)
+        getUserStatus(uid)
       } else {
         setUser(false)
       }
     })
+
+    // Fetch user's privelege status
+    const getUserStatus = async (user) => {
+      const q = query(collection(db, 'users'), where('email', '==', user.email))
+      const querySnapshot = await getDocs(q)
+
+      if (!querySnapshot.empty) {
+        setUserStatus(querySnapshot.docs[0].data().status)
+      } else {
+        // Error fetching status: no user found
+        setUserStatus('user')
+      }
+    }
   })
 
+  // Toggle dropdown menu
   const handleMenu = () => {
     setMenu(!menu)
+  }
+
+  const handleLogout = () => {
+    auth.signOut()
+    setUserStatus('user')
+    router.push('/login')
   }
 
     return (
@@ -71,12 +97,22 @@ export default function Header() {
               <Link href="/donate" className={styles.menuLink}>
                 Donate
               </Link>
+              {userStatus === 'pr' || userStatus === 'moderator' || userStatus === 'admin' && (
+                <Link href="/pr/dashboard" className={styles.menuLink}>
+                  PR Dashboard
+                </Link>
+              )}
+              {userStatus === 'moderator' || userStatus === 'admin' && (
+                <Link href="/mod/dashboard" className={styles.menuLink}>
+                  Mod Dashboard
+                </Link>
+              )}
               {user && (
                 <>
                   <Link href="/account" className={styles.menuLink}>
                     Account
                   </Link>
-                  <button onClick={() => auth.signOut()} className={styles.menuLink}>
+                  <button onClick={handleLogout} className={styles.menuLink}>
                     Logout
                   </button>
                 </>
