@@ -53,12 +53,12 @@ export default function UserPage({ postData }) {
             }
         }
 
-        // Redirect if post is not pending
+        // Redirect if post PR status is not pending
         if (postData[0].prstatus !== 'pending') {
             router.push('/pr/dashboard')
         }
 
-        // Get video if one exists
+        // Get video if one exists (disabled for now Beta v1.0.0)
         const fetchVideo = async () => {
             if (postData[0].video === null) return
 
@@ -81,10 +81,12 @@ export default function UserPage({ postData }) {
         fetchVideo()
     }, [postData, router])
 
+    // Log review inputs
     const handleInput = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value})
     }
 
+    // Submit review
     const handleSubmit = async () => {
         if (formData.body !== null) {
             let linksArray = []
@@ -161,10 +163,10 @@ export default function UserPage({ postData }) {
                         )}
                     </div>
                     <div className={styles.reviewSection}>
-                        <label for="select" className={styles.label}>
+                        <label for="prstatus" className={styles.label}>
                             Approval Level:
                         </label>
-                        <select id="select" className={styles.reviewInput} onChange={(e) => handleInput(e)}>
+                        <select id="prstatus" name="prstatus" className={styles.reviewInput} onChange={(e) => handleInput(e)}>
                             <option value="approved">
                                 Approved
                             </option>
