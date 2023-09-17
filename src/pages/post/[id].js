@@ -8,6 +8,9 @@ import { ref, getDownloadURL, listAll } from 'firebase/storage'
 import { storage } from '@/firebaseConfig.js'
 import { collection, query, getDocs, where, updateDoc, getDoc, doc, setDoc } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
+import addToFavorites from '@/functions/addToFavorites'
+import addToPOTW from '@/functions/addToPOTW'
+import reportPost from '@/functions/reportPost'
 import axios from 'axios'
 import Header from '@/components/Header'
 import styles from '@/styles/post/postPage.module.css'
@@ -15,7 +18,9 @@ import styles from '@/styles/post/postPage.module.css'
 export default function UserPage({ postData }) {
     const [videoURL, setVideoURL] = useState(null)
     const [loaded, setLoaded] = useState(false)
+    const [userData, setUserData] = useState(null)
     const [userStatus, setUserStatus] = useState('user')
+    const [optionsMenu, setOptionsMenu] = useState(false)
 
     useEffect(() => {
 
@@ -74,12 +79,33 @@ export default function UserPage({ postData }) {
 
             if (!querySnapshot.empty) {
                 setUserStatus(querySnapshot.docs[0].data().status)
+                setUserData(querySnapshot.docs[0].data())
             }
         }
     }, [loaded])
 
     const handleAppeal = () => {
         alert('Email Karsten at kgk1999@gmail.com if you feel this review is in error.')
+    }
+
+    // Toggle options menu
+    const handleOptionsMenu = () => {
+        setOptionsMenu(!optionsMenu)
+    }
+
+    // Handle options button clicks
+    const handleOptions = async (e) => {
+        if (e.target.id === 'favorite') {
+            addToFavorites(postData[0].date, userData?.username)
+        } else if (e.target.id === 'potw') {
+            if (userStatus === 'admin') {
+                addToPOTW(postData[0])
+            } else {
+                alert('Error: Admin status required.')
+            }
+        } else if (e.target.id === 'report') {
+            reportPost(postData[0].date)
+        }
     }
 
     if (!postData[0].error) {
@@ -90,6 +116,26 @@ export default function UserPage({ postData }) {
                 <div className={styles.container}>
                     {/* POST HEADER */}
                     <div className={styles.postHeader}>
+                        <button onClick={handleOptionsMenu} className={styles.optionsMenuBtn}>
+                            ...
+                        </button>
+                        {optionsMenu && (
+                            <div className={styles.optionsMenu}>
+                                {userData !== null && (
+                                    <button id="favorite" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                        Add to Favorites
+                                    </button>
+                                )}
+                                {userStatus === 'admin' && (
+                                    <button id="potw" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                        Add to POTW
+                                    </button>
+                                )}
+                                <button id="report" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                    Report
+                                </button>
+                            </div>
+                        )}
                         <h2 className={styles.postHeaderTitle}>
                             {postData[0].title.toUpperCase()}
                         </h2>
