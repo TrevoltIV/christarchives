@@ -87,6 +87,9 @@ export default function Header() {
                   <Link href="/upload" className={styles.menuLink}>
                     Upload
                   </Link>
+                  <Link href="/messaging" className={styles.menuLink}>
+                    Messaging
+                  </Link>
                 </>
               )}
               <Link href="/jointheteam" className={styles.menuLink}>
@@ -123,6 +126,11 @@ export default function Header() {
               {userStatus === 'admin' && (
                 <Link href="/mod/dashboard" className={styles.menuLink}>
                   Mod Dashboard
+                </Link>
+              )}
+              {userStatus === 'admin' && (
+                <Link href="/admin/dashboard" className={styles.menuLink}>
+                  Admin Dashboard
                 </Link>
               )}
               {user && (

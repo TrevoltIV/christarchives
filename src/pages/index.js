@@ -63,6 +63,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <Header />
+        {/* Welcome section */}
         <div className={styles.welcome}>
           <h2 className={styles.welcomeTitle}>
             WELCOME TO CHRIST ARCHIVES!
@@ -75,6 +76,7 @@ export default function Home() {
             WARNING: Site is in early development.
           </p>
         </div>
+        {/* About section */}
         <div className={styles.about}>
           <div className={styles.aboutHeader}>
             <h2 className={styles.aboutHeaderTitle}>
@@ -87,6 +89,24 @@ export default function Home() {
             This will provide as accurate of a source of information as possible. This idea was inspired by all the confusion going on with people on TikTok spreading things that are not accurate,
             which makes people think all biblical evidence or conspiracy is fake. This is exactly how Satan wants it to be, so for anyone who seeks the truth, this is the site for you.
           </p>
+        </div>
+        {/* Posts of the Week section */}
+        <div className={styles.postsOfTheWeek}>
+          <h2 className={styles.postsOfTheWeekTitle}>
+            POSTS OF THE WEEK
+          </h2>
+          <div className={styles.post}>
+            <p>Post temporarily unavailable</p>
+          </div>
+          <div className={styles.post}>
+            <p>Post temporarily unavailable</p>
+          </div>
+          <div className={styles.post}>
+            <p>Post temporarily unavailable</p>
+          </div>
+          <div className={styles.post}>
+            <p>Post temporarily unavailable</p>
+          </div>
         </div>
         <div className={styles.categoriesWrapper}>
           <div className={styles.categoriesHeader}>

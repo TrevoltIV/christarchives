@@ -81,12 +81,22 @@ export default function UserPage({ postData }) {
         fetchVideo()
     }, [postData, router])
 
+    const sendMail = async () => {
+        const res = axios.post('/api/postReviewedMailer', {...userData, postData: postData[0]})
+
+        if (res.status === 200) {
+            router.push(`/post/${postData[0].date}`)
+        } else {
+            router.push(`/post/${postData[0].date}`)
+        }
+    }
+
     // Log review inputs
     const handleInput = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value})
     }
 
-    // Submit review
+    // Submit review and email user
     const handleSubmit = async () => {
         if (formData.body !== null) {
             let linksArray = []
@@ -103,7 +113,7 @@ export default function UserPage({ postData }) {
                 },
             })
             .then(() => {
-                router.push(`/post/${postData[0].date}`)
+                sendMail()
             })
             .catch((error) => {
                 alert(error.message)
