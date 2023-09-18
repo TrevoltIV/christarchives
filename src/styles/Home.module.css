@@ -75,10 +75,10 @@
   align-items: center;
 }
 
-.postsOfTheWeekTitle {
-  margin: 10px 0 10px 0;
+.potwTitle {
+  margin: 5px 0 5px 0;
 
-  color: #e6e6e6;
+  color: #ffffff;
   font-family: sans-serif;
 }
 

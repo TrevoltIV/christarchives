@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, collection, query, getDocs } from 'firebase/firestore'
 import { auth, db } from '@/firebaseConfig'
 import axios from 'axios'
 import Header from '@/components/Header'
@@ -12,6 +12,7 @@ import styles from '@/styles/Home.module.css'
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false)
+  const [POTW, setPOTW] = useState([])
   const [formData, setFormData] = useState({
     email: null,
   })
@@ -34,6 +35,23 @@ export default function Home() {
     }
 
     fetchIP()
+
+    const fetchPOTW = async () => {
+      const q = query(collection(db, 'postsoftheweek'))
+      const querySnapshot = await getDocs(q)
+      let potwArray = []
+
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          potwArray.push(doc.data())
+        })
+        setPOTW(potwArray)
+      } else {
+        setPOTW([{title: 'Error: No posts available.'}])
+      }
+    }
+
+    fetchPOTW()
   }, [loaded])
 
   const handleInput = (val) => {
@@ -92,21 +110,21 @@ export default function Home() {
         </div>
         {/* Posts of the Week section */}
         <div className={styles.postsOfTheWeek}>
-          <h2 className={styles.postsOfTheWeekTitle}>
+          <h2 className={styles.potwTitle}>
             POSTS OF THE WEEK
           </h2>
-          <div className={styles.post}>
-            <p>Post temporarily unavailable</p>
-          </div>
-          <div className={styles.post}>
-            <p>Post temporarily unavailable</p>
-          </div>
-          <div className={styles.post}>
-            <p>Post temporarily unavailable</p>
-          </div>
-          <div className={styles.post}>
-            <p>Post temporarily unavailable</p>
-          </div>
+          {POTW.map((post, index) => {
+            return (
+              <div key={index} className={styles.post}>
+                <Link href={`/post/${post.date}`} className={styles.potwTitle}>
+                  {post.title}
+                </Link>
+                <p className={styles.potwAuthor}>
+                  Author: {post.author}
+                </p>
+              </div>
+            )
+          })}
         </div>
         <div className={styles.categoriesWrapper}>
           <div className={styles.categoriesHeader}>
