@@ -77,6 +77,7 @@ export default function Upload() {
 
     // Log input values
     const handleInput = (e) => {
+        if (e.target.id === 'category' && e.target.value === 'default') return null
         setFormData({...formData, [e.target.id]: e.target.value})
     }
 
@@ -128,10 +129,53 @@ export default function Upload() {
             <main className={styles.main}>
                 <Header />
                 <div className={styles.upload}>
-                    <h2>SUBMIT A POST</h2>
+                    <h2 className={styles.title}>SUBMIT A POST</h2>
                     <input className={styles.input} type="text" id="title" onChange={(e) => handleInput(e)} placeholder="*Title" />
                     <textarea className={styles.textarea} id="body" onChange={(e) => handleInput(e)} placeholder="*Body" />
-                    <input className={styles.input} type="text" id="category" onChange={(e) => handleInput(e)} placeholder="*Category" />
+                    <select className={styles.input} id="category" onChange={(e) => handleInput(e)} placeholder="Category">
+                        <option selected="selected" disabled value="default">
+                            *Category
+                        </option>
+                        <option value="Bible Study">
+                            Bible Study
+                        </option>
+                        <option value="Bible Study">
+                            Prophecy / End Times
+                        </option>
+                        <option value="Bible Study">
+                            False Teachings Exposed
+                        </option>
+                        <option value="Bible Study">
+                            Evolution / Old Earth
+                        </option>
+                        <option value="Bible Study">
+                            Genesis
+                        </option>
+                        <option value="Bible Study">
+                            Biblical Archeology
+                        </option>
+                        <option value="Bible Study">
+                            Current Events
+                        </option>
+                        <option value="Bible Study">
+                            Supernatural
+                        </option>
+                        <option value="Bible Study">
+                            Occult
+                        </option>
+                        <option value="Bible Study">
+                            Conspiracy
+                        </option>
+                        <option value="Bible Study">
+                            &apos;Aliens&apos;
+                        </option>
+                        <option value="Bible Study">
+                            Catholicism
+                        </option>
+                        <option value="Bible Study">
+                            Misc
+                        </option>
+                    </select>
                     <input className={styles.input} type="text" id="link" onChange={(e) => handleInput(e)} placeholder="Link URL (optional)" />
                     <button className={styles.btn} onClick={handleUpload}>
                         Submit

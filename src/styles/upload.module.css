@@ -16,6 +16,11 @@
     align-items: center;
 }
 
+.title {
+    color: #fff;
+    font-family: sans-serif;
+}
+
 .input {
     background: #444444;
     width: 340px;
