@@ -99,7 +99,7 @@ export default function UserPage({ postData }) {
     // Handle options button clicks
     const handleOptions = async (e) => {
         if (e.target.id === 'favorite') {
-            // 
+            // Add post to favorites
             addToFavorites(postData[0].date, userData?.username)
         } else if (e.target.id === 'potw') {
             // Add post to posts of the week list
@@ -111,7 +111,7 @@ export default function UserPage({ postData }) {
         } else if (e.target.id === 'report') {
             // Report post
             if (userStatus === 'admin') {
-                reportPost(postData[0].date)
+                reportPost(postData[0].date, userData)
             } else {
                 alert('Error: Admin status required.')
             }
