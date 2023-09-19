@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useSyncExternalStore } from 'react'
+import { useState, useEffect } from 'react'
 import { db, auth } from '@/firebaseConfig'
 import { ref, getDownloadURL, listAll } from 'firebase/storage'
 import { storage } from '@/firebaseConfig.js'
@@ -11,6 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import addToFavorites from '@/functions/addToFavorites'
 import addToPOTW from '@/functions/addToPOTW'
 import reportPost from '@/functions/reportPost'
+import deletePost from '@/functions/deletePost'
 import axios from 'axios'
 import Header from '@/components/Header'
 import styles from '@/styles/post/postPage.module.css'
@@ -21,6 +22,8 @@ export default function UserPage({ postData }) {
     const [userData, setUserData] = useState(null)
     const [userStatus, setUserStatus] = useState('user')
     const [optionsMenu, setOptionsMenu] = useState(false)
+
+    const router = useRouter()
 
     useEffect(() => {
 
@@ -96,15 +99,28 @@ export default function UserPage({ postData }) {
     // Handle options button clicks
     const handleOptions = async (e) => {
         if (e.target.id === 'favorite') {
+            // 
             addToFavorites(postData[0].date, userData?.username)
         } else if (e.target.id === 'potw') {
+            // Add post to posts of the week list
             if (userStatus === 'admin') {
                 addToPOTW(postData[0])
             } else {
                 alert('Error: Admin status required.')
             }
         } else if (e.target.id === 'report') {
-            reportPost(postData[0].date)
+            // Report post
+            if (userStatus === 'admin') {
+                reportPost(postData[0].date)
+            } else {
+                alert('Error: Admin status required.')
+            }
+        } else if (e.target.id === 'delete') {
+            // Delete post
+            deletePost(postData[0].date)
+            .then(() => {
+                router.push('/')
+            })
         }
     }
 
@@ -127,9 +143,14 @@ export default function UserPage({ postData }) {
                                     </button>
                                 )}
                                 {userStatus === 'admin' && (
-                                    <button id="potw" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
-                                        Add to POTW
-                                    </button>
+                                    <>
+                                        <button id="potw" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                            Add to POTW
+                                        </button>
+                                        <button id="delete" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                            Delete
+                                        </button>
+                                    </>
                                 )}
                                 <button id="report" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
                                     Report
