@@ -46,7 +46,6 @@ export default function UserPage({ postData }) {
 
             setVideoURL(urls[0])
         }
-
         fetchVideo()
     })
 

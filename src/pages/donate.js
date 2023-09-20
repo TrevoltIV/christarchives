@@ -42,17 +42,21 @@ export default function Donate() {
         <div className={styles.container}>
             <Header />
             <div className={styles.donate}>
-                Donate page - under construction.
-
-                <h2>
-                    If you would like to donate via Bitcoin, you can send to the address below. Otherwise, please come back in a few days when I have implemented payments.
-                    All donations go to either advertising or charity, no profits will be made whatsoever. Thanks!
-                </h2>
-                <br />
-                <br />
-                <h3>
-                    &nbsp;BTC ADDRESS: &nbsp;bc1q7gazhsrmxfmyjqj7hdfg6eemf8hy59fw2kzdyl
-                </h3>
+                <div className={styles.content}>
+                    <h2 className={styles.title}>
+                        Make A Donation
+                    </h2>
+                    <p className={styles.text}>
+                        If you would like to donate via Bitcoin, you can send to the address below. Otherwise, please come back shortly after I have implemented payments.
+                        All donations go to advertising or charity, no profits will be made whatsoever. Thanks!
+                    </p>
+                    <h3 className={styles.btcAddressTitle}>
+                        &nbsp;BTC ADDRESS:
+                    </h3>
+                    <p className={styles.btcAddress}>
+                        bc1q7gazhsrmxfmyjqj7hdfg6eemf8hy59fw2kzdyl
+                    </p>
+                </div>
             </div>
         </div>
     )
