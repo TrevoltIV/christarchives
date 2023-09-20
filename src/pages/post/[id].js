@@ -109,17 +109,16 @@ export default function UserPage({ postData }) {
             }
         } else if (e.target.id === 'report') {
             // Report post
-            if (userStatus === 'admin') {
-                reportPost(postData[0].date, userData)
-            } else {
-                alert('Error: Admin status required.')
-            }
+            reportPost(postData[0].date, userData)
         } else if (e.target.id === 'delete') {
             // Delete post
             deletePost(postData[0].date)
             .then(() => {
                 router.push('/')
             })
+        } else if (e.target.id === 'login') {
+            // Redirect to login page
+            router.push('/login')
         }
     }
 
@@ -151,9 +150,16 @@ export default function UserPage({ postData }) {
                                         </button>
                                     </>
                                 )}
-                                <button id="report" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
-                                    Report
-                                </button>
+                                {userData !== null && (
+                                    <button id="report" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                        Report
+                                    </button>
+                                )}
+                                {userData === null && (
+                                    <button id="login" onClick={(e) => handleOptions(e)} className={styles.optionBtn}>
+                                        Login or Signup
+                                    </button>
+                                )}
                             </div>
                         )}
                         <h2 className={styles.postHeaderTitle}>

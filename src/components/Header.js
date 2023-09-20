@@ -52,7 +52,7 @@ export default function Header() {
     setUserStatus('user')
     router.push('/login')
   }
-  console.log(userStatus)
+  
 
     return (
         <div className={styles.header}>
