@@ -136,43 +136,43 @@ export default function Upload() {
                         <option selected="selected" disabled value="default">
                             *Category
                         </option>
-                        <option value="Bible Study">
+                        <option value="biblestudy">
                             Bible Study
                         </option>
-                        <option value="Bible Study">
+                        <option value="prophecy">
                             Prophecy / End Times
                         </option>
-                        <option value="Bible Study">
+                        <option value="falseteachings">
                             False Teachings Exposed
                         </option>
-                        <option value="Bible Study">
+                        <option value="evolution">
                             Evolution / Old Earth
                         </option>
-                        <option value="Bible Study">
+                        <option value="genesis">
                             Genesis
                         </option>
-                        <option value="Bible Study">
+                        <option value="archeology">
                             Biblical Archeology
                         </option>
-                        <option value="Bible Study">
+                        <option value="currentevents">
                             Current Events
                         </option>
-                        <option value="Bible Study">
+                        <option value="supernatural">
                             Supernatural
                         </option>
-                        <option value="Bible Study">
+                        <option value="occult">
                             Occult
                         </option>
-                        <option value="Bible Study">
+                        <option value="conspiracy">
                             Conspiracy
                         </option>
-                        <option value="Bible Study">
+                        <option value="aliens">
                             &apos;Aliens&apos;
                         </option>
-                        <option value="Bible Study">
+                        <option value="catholicism">
                             Catholicism
                         </option>
-                        <option value="Bible Study">
+                        <option value="misc">
                             Misc
                         </option>
                     </select>

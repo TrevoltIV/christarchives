@@ -70,7 +70,7 @@ export default function ResetPassword() {
                         placeholder="Email address"
                     />
                     <button onClick={handleSubmit} className={styles.btn}>
-                        Reset
+                        Get Code
                     </button>
                 </div>
             </div>

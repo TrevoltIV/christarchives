@@ -28,7 +28,7 @@ export default async function generateSecure4DigitCode(email) {
     await setDoc(doc(db, 'resetcodes', email), {
       code: code,
       email: email,
-  })
+    })
   
     return code
   }
